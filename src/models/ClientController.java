@@ -8,6 +8,10 @@ import java.util.logging.Logger;
 /**
  * Created by 0940135 on 2016-03-04.
  */
-public class ClientController {
+public class ClientController extends BaseController{
 
+    @Override
+    public void process(String[] inputs) {
+
+    }
 }

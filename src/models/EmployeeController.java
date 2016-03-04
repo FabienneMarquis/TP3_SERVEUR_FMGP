@@ -8,8 +8,9 @@ import java.util.logging.Logger;
 /**
  * Created by 0940135 on 2016-03-04.
  */
-public class EmployeeController {
-    public Employee logIn(int id, String password){
+public class EmployeeController extends BaseController{
+
+    private Employee logIn(int id, String password){
         Employee employee = null;
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
@@ -31,7 +32,7 @@ public class EmployeeController {
         return employee;
     }
 
-    public Employee signIn(String nom, String prenom, String password){
+    private Employee signIn(String nom, String prenom, String password){
         Employee employee = null;
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
@@ -50,5 +51,15 @@ public class EmployeeController {
         }
         return employee;
     }
-
+    @Override
+    public void process(String[] inputs){
+        switch (inputs[1]){
+            case "login":
+                logIn(Integer.valueOf(inputs[2]),inputs[3]);
+                break;
+            case "signin":
+                signIn(inputs[2],inputs[3],inputs[4]);
+                break;
+        }
+    }
 }
