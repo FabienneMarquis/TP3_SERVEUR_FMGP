@@ -62,7 +62,7 @@ public class ServeurSSL extends Thread {
                         case "client":
                             ClientController.getInstance().process(inputs);
                             break;
-                        case "employe":
+                        case "employee":
                             EmployeeController.getInstance().process(inputs);
                             break;
                         case "reservation":
