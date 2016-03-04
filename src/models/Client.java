@@ -7,9 +7,16 @@ public class Client{
     private String nom;
     private String prenom;
     private int telephone;
-    private int idClient;
+    private int id;
 
     public Client(String nom, String prenom, int telephone) {
+        this.nom = nom;
+        this.prenom = prenom;
+        this.telephone = telephone;
+    }
+
+    public Client(int id, String nom, String prenom, int telephone) {
+        this.id = id;
         this.nom = nom;
         this.prenom = prenom;
         this.telephone = telephone;

@@ -30,19 +30,57 @@ public class DB {
             e.printStackTrace();
         }
     }
-    public Client getClient(int id){
+    public Client selectClient(int id){
         Client client = null;
         try {
             Statement statement = connection.createStatement();
-            statement.execute("SELECT * FROM client where id = "+id);
-            ResultSet resultSet = statement.getResultSet();
-            String nom = resultSet.getString("nom");
-            String prenom = resultSet.getString("prenom");
-            int telephone = resultSet.getInt("telephone");
-            client = new Client(nom,prenom,telephone);
+            if(statement.execute("SELECT * FROM client where id = "+id)){
+                ResultSet resultSet = statement.getResultSet();
+                String nom = resultSet.getString("nom");
+                String prenom = resultSet.getString("prenom");
+                int telephone = resultSet.getInt("telephone");
+                client = new Client(id,nom,prenom,telephone);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return client;
+    }
+    public Employee selectEmployee(int id){
+        Employee employee = null;
+        try {
+            Statement statement = connection.createStatement();
+            if(statement.execute("SELECT * FROM employees where id = "+id)){
+                ResultSet resultSet = statement.getResultSet();
+                if(resultSet.next()){
+                    String nom = resultSet.getString("nom");
+                    String prenom = resultSet.getString("prenom");
+                    String password = resultSet.getString("mot_de_passe");
+                    employee = new Employee(id,nom,prenom,password);
+                }
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return employee;
+    }
+    public Employee insertEmployee(String nom, String prenom, String password){
+        Employee employee = null;
+        try {
+            Statement statement = connection.createStatement();
+
+            if(statement.executeUpdate("INSERT INTO employees (`nom`,`prenom`,`mot_de_passe`) VALUES (\"" + nom + "\",\"" + prenom + "\",\"" + password + "\");", Statement.RETURN_GENERATED_KEYS) > 0){
+                ResultSet resultSet = statement.getGeneratedKeys();
+                if(resultSet.next()){
+                    employee = new Employee(resultSet.getInt(1),nom,prenom,password);
+                }
+            }
+
+            //employee = new Employee(id,nom,prenom,password);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return employee;
     }
 }

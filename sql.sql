@@ -36,7 +36,7 @@ CREATE TABLE `employees`(
     `id` int (11) NOT NULL AUTO_INCREMENT,
     `nom` VARCHAR(255) NOT NULL,
     `prenom` VARCHAR(255) NOT NULL,
-    `mot_de_passe` CHAR(20) NOT NULL,
+    `mot_de_passe` VARCHAR(255) NOT NULL,
     PRIMARY KEY (`id`)
 );
 
