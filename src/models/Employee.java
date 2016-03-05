@@ -22,6 +22,10 @@ public class Employee {
         this.motDePasse = motDePasse;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public String getNom() {
         return nom;
     }

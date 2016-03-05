@@ -26,13 +26,10 @@ public class ServeurSSL extends Thread {
                 SSLSocket s = (SSLSocket) ss.accept();
                 ClientSSLThread clientSSLThread = new ClientSSLThread(s);
                 clientSSLThread.start();
-                clientSSLThread.send("Hi");
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 
     class ClientSSLThread extends Thread {
@@ -57,19 +54,21 @@ public class ServeurSSL extends Thread {
                 try {
                     line = bufferedReader.readLine();
                     System.out.println(line);
-                    String[] inputs = line.split(":");
-                    switch (inputs[0]){
+                    String[] split = line.split("@");
+                    String controller = split[0];
+                    String action = split[1];
+                    switch (controller) {
                         case "client":
-                            ClientController.getInstance().process(inputs);
+                            Context.getInstance().getClientController().dispatch(action, this);
                             break;
                         case "employee":
-                            EmployeeController.getInstance().process(inputs);
+                            Context.getInstance().getEmployeeController().dispatch(action, this);
                             break;
                         case "reservation":
-                            ReservationController.getInstance().process(inputs);
+                            Context.getInstance().getReservationController().dispatch(action, this);
                             break;
                         case "chambre":
-                            ChambreController.getInstance().process(inputs);
+                            Context.getInstance().getChambreController().dispatch(action, this);
                             break;
                     }
                 } catch (IOException e) {
@@ -98,7 +97,7 @@ public class ServeurSSL extends Thread {
             }
         }
 
-        private void send(String msg) {
+        public void send(String msg) {
             try {
                 bufferedWriter.write(msg + "\n");
                 bufferedWriter.flush();

@@ -2,15 +2,18 @@ package models;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.ParseException;
+import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  * Created by 0940135 on 2016-03-04.
  */
-public class EmployeeController extends BaseController{
+public class EmployeeController extends BaseController {
 
-    private Employee logIn(int id, String password){
+
+    public Employee logIn(int id, String password) {
         Employee employee = null;
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
@@ -18,12 +21,12 @@ public class EmployeeController extends BaseController{
             md.reset();
             byte[] digested = md.digest(passBytes);
             StringBuffer sb = new StringBuffer();
-            for(int i=0;i<digested.length;i++){
+            for (int i = 0; i < digested.length; i++) {
                 sb.append(Integer.toHexString(0xff & digested[i]));
             }
-            String encryptedPassword =  sb.toString();
+            String encryptedPassword = sb.toString();
             Employee employeeWanted = DB.getInstance().selectEmployee(id);
-            if(employeeWanted.getMotDePasse().compareTo(encryptedPassword) == 0){
+            if (employeeWanted.getMotDePasse().compareTo(encryptedPassword) == 0) {
                 employee = employeeWanted;
             }
         } catch (NoSuchAlgorithmException e) {
@@ -32,34 +35,94 @@ public class EmployeeController extends BaseController{
         return employee;
     }
 
-    private Employee signIn(String nom, String prenom, String password){
-        Employee employee = null;
+    public int signIn(String nom, String prenom, String password) {
+        int id = -1;
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
             byte[] passBytes = password.getBytes();
             md.reset();
             byte[] digested = md.digest(passBytes);
             StringBuffer sb = new StringBuffer();
-            for(int i=0;i<digested.length;i++){
+            for (int i = 0; i < digested.length; i++) {
                 sb.append(Integer.toHexString(0xff & digested[i]));
             }
-            String encryptedPassword =  sb.toString();
-            employee = DB.getInstance().insertEmployee(nom,prenom,encryptedPassword);
+            String encryptedPassword = sb.toString();
+            id = DB.getInstance().insertEmployee(nom, prenom, encryptedPassword);
 
         } catch (NoSuchAlgorithmException e) {
             Logger.getLogger(ClientController.class.getName()).log(Level.SEVERE, null, e);
         }
-        return employee;
+        return id;
     }
+
     @Override
-    public void process(String[] inputs){
-        switch (inputs[1]){
-            case "login":
-                logIn(Integer.valueOf(inputs[2]),inputs[3]);
+    public void dispatch(String inputs, ServeurSSL.ClientSSLThread origin) {
+        String[] split = inputs.split("\\?");
+        String action = split[0];
+        String[] args = split[1].split("&");
+        switch (action) {
+            case "login": {
+                int id = -1;
+                String password = "";
+                for (String arg : args) {
+                    String[] tmp = arg.split("=");
+                    if (tmp.length == 2) {
+                        switch (tmp[0]) {
+                            case "id": {
+                                id = Integer.valueOf(tmp[1]);
+                                break;
+                            }
+                            case "mot_de_passe": {
+                                password = tmp[1];
+                                break;
+                            }
+                        }
+                    }
+
+                }
+                if (id != -1 && password.length() > 0) {
+                    Employee employee = logIn(id, password);
+                    if(employee!=null){
+                        origin.send("employee@login?prenom=" + employee.getPrenom() + "&nom=" + employee.getNom());
+                    }else {
+                        origin.send("employee@login?error=failed");
+                    }
+
+                }
                 break;
-            case "signin":
-                signIn(inputs[2],inputs[3],inputs[4]);
+            }
+            case "signin": {
+                String nom = "";
+                String prenom = "";
+                String password = "";
+                for (String arg : args) {
+                    String[] tmp = arg.split("=");
+                    if (tmp.length == 2) {
+                        switch (tmp[0]) {
+                            case "nom": {
+                                nom = tmp[1];
+                                break;
+                            }
+                            case "prenom": {
+                                prenom = tmp[1];
+                                break;
+                            }
+                            case "mot_de_passe": {
+                                password = tmp[1];
+                                break;
+                            }
+
+                        }
+                    }
+
+                }
+                if (nom.length() > 0 && prenom.length() > 0 && password.length() > 0) {
+                    int id = signIn(nom, prenom, password);
+                    origin.send("employee@signin?id=" + id);
+                }
+
                 break;
+            }
         }
     }
 }

@@ -13,7 +13,7 @@ public class ClientSSL extends Thread{
     private SSLSocket socket;
     private BufferedReader bufferedReader;
     private BufferedWriter bufferedWriter;
-    ClientSSL(String ip){
+    public ClientSSL(String ip){
         System.setProperty("javax.net.ssl.trustStore", "public.jks");
         SSLSocketFactory ssf = (SSLSocketFactory) SSLSocketFactory.getDefault();
         try {
@@ -71,7 +71,6 @@ public class ClientSSL extends Thread{
     public static void main(String args[]) throws Exception {
         ClientSSL clientSSL = new ClientSSL("127.0.0.1");
         clientSSL.start();
-        clientSSL.send("Hello");
-
+        clientSSL.send("reservation@new?id_client=1&id_chambre=2&checkin=2017-03-23&checkout=2018-03-24");
     }
 }
