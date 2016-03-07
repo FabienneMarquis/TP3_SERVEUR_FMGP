@@ -4,6 +4,8 @@ import javax.net.ssl.SSLServerSocketFactory;
 import javax.net.ssl.SSLSocket;
 import java.io.*;
 import java.net.ServerSocket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -17,7 +19,6 @@ public class ServeurSSL extends Thread {
     public ServeurSSL() {
         System.setProperty("javax.net.ssl.keyStore", "serveurtp3.jks");
         System.setProperty("javax.net.ssl.keyStorePassword", "derpherp");
-
         SSLServerSocketFactory ssf = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
         ServerSocket ss = null;
         try {
@@ -43,6 +44,7 @@ public class ServeurSSL extends Thread {
                 socket.startHandshake();
                 bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
                 bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                Logger.getLogger(getClass().getName()).log(Level.FINEST, "caca", "Connection[" + socket.getInetAddress() + "]");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -80,6 +82,7 @@ public class ServeurSSL extends Thread {
         }
 
         private void close() {
+            Logger.getLogger(getClass().getName()).log(Level.FINEST, null, "Disconnection[" +socket.getInetAddress()+"]");
             try {
                 socket.close();
             } catch (IOException e1) {

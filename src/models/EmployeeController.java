@@ -28,9 +28,10 @@ public class EmployeeController extends BaseController {
             Employee employeeWanted = DB.getInstance().selectEmployee(id);
             if (employeeWanted.getMotDePasse().compareTo(encryptedPassword) == 0) {
                 employee = employeeWanted;
+                Logger.getLogger("log").log(Level.FINEST, null, "Login:" +employee);
             }
         } catch (NoSuchAlgorithmException e) {
-            Logger.getLogger(ClientController.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, e);
         }
         return employee;
     }
@@ -48,9 +49,12 @@ public class EmployeeController extends BaseController {
             }
             String encryptedPassword = sb.toString();
             id = DB.getInstance().insertEmployee(nom, prenom, encryptedPassword);
+            if(id>0){
+                Logger.getLogger(getClass().getName()).log(Level.FINEST, null, "Signin:" +new Employee(id,nom,prenom,""));
+            }
 
         } catch (NoSuchAlgorithmException e) {
-            Logger.getLogger(ClientController.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, e);
         }
         return id;
     }
@@ -119,6 +123,8 @@ public class EmployeeController extends BaseController {
                 if (nom.length() > 0 && prenom.length() > 0 && password.length() > 0) {
                     int id = signIn(nom, prenom, password);
                     origin.send("employee@signin?id=" + id);
+                }else {
+                    origin.send("employee@signin?error=failed");
                 }
 
                 break;

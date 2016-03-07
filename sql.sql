@@ -39,7 +39,6 @@ CREATE TABLE `employees`(
     `mot_de_passe` VARCHAR(255) NOT NULL,
     PRIMARY KEY (`id`)
 );
-
 INSERT INTO `chambres` VALUES (1,"Roche","Lit de pierre"),(2,"Paille","Lit de paille");
 INSERT INTO `clients` VALUES (1,"Patate","Bob",111222333),(2,"Gros-nez","Bobbette",222334121);
 INSERT INTO `reservations` VALUES (1,1,1,"2016-03-05","2016-03-06"),(2,2,2,"2016-03-05","2016-03-07");

@@ -14,7 +14,6 @@ public class Context {
         return instance;
     }
     private Context(){
-        System.out.println("wtf");
         chambreController = new ChambreController();
         clientController = new ClientController();
         employeeController = new EmployeeController();
