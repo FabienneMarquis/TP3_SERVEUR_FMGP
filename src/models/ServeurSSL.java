@@ -56,23 +56,26 @@ public class ServeurSSL extends Thread {
                 try {
                     line = bufferedReader.readLine();
                     System.out.println(line);
-                    String[] split = line.split("@");
-                    String controller = split[0];
-                    String action = split[1];
-                    switch (controller) {
-                        case "client":
-                            Context.getInstance().getClientController().dispatch(action, this);
-                            break;
-                        case "employee":
-                            Context.getInstance().getEmployeeController().dispatch(action, this);
-                            break;
-                        case "reservation":
-                            Context.getInstance().getReservationController().dispatch(action, this);
-                            break;
-                        case "chambre":
-                            Context.getInstance().getChambreController().dispatch(action, this);
-                            break;
+                    if(line!=null){
+                        String[] split = line.split("@");
+                        String controller = split[0];
+                        String action = split[1];
+                        switch (controller) {
+                            case "client":
+                                Context.getInstance().getClientController().dispatch(action, this);
+                                break;
+                            case "employee":
+                                Context.getInstance().getEmployeeController().dispatch(action, this);
+                                break;
+                            case "reservation":
+                                Context.getInstance().getReservationController().dispatch(action, this);
+                                break;
+                            case "chambre":
+                                Context.getInstance().getChambreController().dispatch(action, this);
+                                break;
+                        }
                     }
+
                 } catch (IOException e) {
                     close();
                 }

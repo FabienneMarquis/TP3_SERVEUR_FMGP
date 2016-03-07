@@ -71,6 +71,6 @@ public class ClientSSL extends Thread{
     public static void main(String args[]) throws Exception {
         ClientSSL clientSSL = new ClientSSL("127.0.0.1");
         clientSSL.start();
-        clientSSL.send("employee@login?id=2&mot_de_passe=derp");
+        clientSSL.send("employee@signin?nom=derp&prenom=herp&mot_de_passe=derp");
     }
 }

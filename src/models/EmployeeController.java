@@ -26,9 +26,11 @@ public class EmployeeController extends BaseController {
             }
             String encryptedPassword = sb.toString();
             Employee employeeWanted = DB.getInstance().selectEmployee(id);
-            if (employeeWanted.getMotDePasse().compareTo(encryptedPassword) == 0) {
-                employee = employeeWanted;
-                Logger.getLogger("log").log(Level.FINEST, null, "Login:" +employee);
+            if(employeeWanted!=null){
+                if (employeeWanted.getMotDePasse().compareTo(encryptedPassword) == 0) {
+                    employee = employeeWanted;
+                    Logger.getLogger("log").log(Level.FINEST, null, "Login:" +employee);
+                }
             }
         } catch (NoSuchAlgorithmException e) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, e);

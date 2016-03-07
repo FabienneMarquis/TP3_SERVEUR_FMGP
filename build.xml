@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="tp3_serveur_fmgp" default="all">
+  
+  
+  <property file="build.properties"/>
+  <!-- Uncomment the following property if no tests compilation is needed -->
+  <!-- 
+  <property name="skip.tests" value="true"/>
+   -->
+  
+  <!-- Compiler options -->
+  
+  <property name="compiler.debug" value="on"/>
+  <property name="compiler.generate.no.warnings" value="off"/>
+  <property name="compiler.args" value=""/>
+  <property name="compiler.max.memory" value="700m"/>
+  <patternset id="ignored.files">
+    <exclude name="**/*.hprof/**"/>
+    <exclude name="**/*.pyc/**"/>
+    <exclude name="**/*.pyo/**"/>
+    <exclude name="**/*.rbc/**"/>
+    <exclude name="**/*~/**"/>
+    <exclude name="**/.DS_Store/**"/>
+    <exclude name="**/.bundle/**"/>
+    <exclude name="**/.git/**"/>
+    <exclude name="**/.hg/**"/>
+    <exclude name="**/.svn/**"/>
+    <exclude name="**/.tox/**"/>
+    <exclude name="**/CVS/**"/>
+    <exclude name="**/RCS/**"/>
+    <exclude name="**/SCCS/**"/>
+    <exclude name="**/__pycache__/**"/>
+    <exclude name="**/_svn/**"/>
+    <exclude name="**/rcs/**"/>
+    <exclude name="**/vssver.scc/**"/>
+    <exclude name="**/vssver2.scc/**"/>
+  </patternset>
+  <patternset id="library.patterns">
+    <include name="*.war"/>
+    <include name="*.ear"/>
+    <include name="*.apk"/>
+    <include name="*.zip"/>
+    <include name="*.swc"/>
+    <include name="*.ane"/>
+    <include name="*.egg"/>
+    <include name="*.jar"/>
+  </patternset>
+  <patternset id="compiler.resources">
+    <exclude name="**/?*.java"/>
+    <exclude name="**/?*.form"/>
+    <exclude name="**/?*.class"/>
+    <exclude name="**/?*.groovy"/>
+    <exclude name="**/?*.scala"/>
+    <exclude name="**/?*.flex"/>
+    <exclude name="**/?*.kt"/>
+    <exclude name="**/?*.clj"/>
+    <exclude name="**/?*.aj"/>
+  </patternset>
+  
+  <!-- JDK definitions -->
+  
+  <property name="jdk.bin.1.8" value="${jdk.home.1.8}/bin"/>
+  <path id="jdk.classpath.1.8">
+    <fileset dir="${jdk.home.1.8}">
+      <include name="jre/lib/charsets.jar"/>
+      <include name="jre/lib/deploy.jar"/>
+      <include name="jre/lib/javaws.jar"/>
+      <include name="jre/lib/jce.jar"/>
+      <include name="jre/lib/jfr.jar"/>
+      <include name="jre/lib/jfxswt.jar"/>
+      <include name="jre/lib/jsse.jar"/>
+      <include name="jre/lib/management-agent.jar"/>
+      <include name="jre/lib/plugin.jar"/>
+      <include name="jre/lib/resources.jar"/>
+      <include name="jre/lib/rt.jar"/>
+      <include name="jre/lib/ext/access-bridge-64.jar"/>
+      <include name="jre/lib/ext/cldrdata.jar"/>
+      <include name="jre/lib/ext/dnsns.jar"/>
+      <include name="jre/lib/ext/jaccess.jar"/>
+      <include name="jre/lib/ext/jfxrt.jar"/>
+      <include name="jre/lib/ext/localedata.jar"/>
+      <include name="jre/lib/ext/nashorn.jar"/>
+      <include name="jre/lib/ext/sunec.jar"/>
+      <include name="jre/lib/ext/sunjce_provider.jar"/>
+      <include name="jre/lib/ext/sunmscapi.jar"/>
+      <include name="jre/lib/ext/sunpkcs11.jar"/>
+      <include name="jre/lib/ext/zipfs.jar"/>
+    </fileset>
+  </path>
+  
+  <property name="project.jdk.home" value="${jdk.home.1.8}"/>
+  <property name="project.jdk.bin" value="${jdk.bin.1.8}"/>
+  <property name="project.jdk.classpath" value="jdk.classpath.1.8"/>
+  
+  
+  <!-- Project Libraries -->
+  
+  <path id="library.mysql-connector-java-5.1.38-bin.classpath">
+    <pathelement location="${basedir}/mysql-connector-java-5.1.38-bin.jar"/>
+  </path>
+  
+  <!-- Modules -->
+  
+  
+  <!-- Module TP3_SERVEUR_FMGP -->
+  
+  <dirname property="module.tp3_serveur_fmgp.basedir" file="${ant.file}"/>
+  
+  
+  <property name="module.jdk.home.tp3_serveur_fmgp" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.tp3_serveur_fmgp" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.tp3_serveur_fmgp" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.tp3_serveur_fmgp" value="-encoding UTF-8 -source 8 ${compiler.args}"/>
+  
+  <property name="tp3_serveur_fmgp.output.dir" value="${module.tp3_serveur_fmgp.basedir}/out/production/TP3_SERVEUR_FMGP"/>
+  <property name="tp3_serveur_fmgp.testoutput.dir" value="${module.tp3_serveur_fmgp.basedir}/out/test/TP3_SERVEUR_FMGP"/>
+  
+  <path id="tp3_serveur_fmgp.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="tp3_serveur_fmgp.module.production.classpath">
+    <path refid="${module.jdk.classpath.tp3_serveur_fmgp}"/>
+    <path refid="library.mysql-connector-java-5.1.38-bin.classpath"/>
+  </path>
+  
+  <path id="tp3_serveur_fmgp.runtime.production.module.classpath">
+    <pathelement location="${tp3_serveur_fmgp.output.dir}"/>
+    <path refid="library.mysql-connector-java-5.1.38-bin.classpath"/>
+  </path>
+  
+  <path id="tp3_serveur_fmgp.module.classpath">
+    <path refid="${module.jdk.classpath.tp3_serveur_fmgp}"/>
+    <pathelement location="${tp3_serveur_fmgp.output.dir}"/>
+    <path refid="library.mysql-connector-java-5.1.38-bin.classpath"/>
+  </path>
+  
+  <path id="tp3_serveur_fmgp.runtime.module.classpath">
+    <pathelement location="${tp3_serveur_fmgp.testoutput.dir}"/>
+    <pathelement location="${tp3_serveur_fmgp.output.dir}"/>
+    <path refid="library.mysql-connector-java-5.1.38-bin.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.tp3_serveur_fmgp">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.tp3_serveur_fmgp">
+    <patternset refid="excluded.from.module.tp3_serveur_fmgp"/>
+  </patternset>
+  
+  <path id="tp3_serveur_fmgp.module.sourcepath">
+    <dirset dir="${module.tp3_serveur_fmgp.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.tp3_serveur_fmgp" depends="compile.module.tp3_serveur_fmgp.production,compile.module.tp3_serveur_fmgp.tests" description="Compile module TP3_SERVEUR_FMGP"/>
+  
+  <target name="compile.module.tp3_serveur_fmgp.production" description="Compile module TP3_SERVEUR_FMGP; production classes">
+    <mkdir dir="${tp3_serveur_fmgp.output.dir}"/>
+    <javac destdir="${tp3_serveur_fmgp.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.tp3_serveur_fmgp}/javac">
+      <compilerarg line="${compiler.args.tp3_serveur_fmgp}"/>
+      <bootclasspath refid="tp3_serveur_fmgp.module.bootclasspath"/>
+      <classpath refid="tp3_serveur_fmgp.module.production.classpath"/>
+      <src refid="tp3_serveur_fmgp.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.tp3_serveur_fmgp"/>
+    </javac>
+    
+    <copy todir="${tp3_serveur_fmgp.output.dir}">
+      <fileset dir="${module.tp3_serveur_fmgp.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.tp3_serveur_fmgp.tests" depends="compile.module.tp3_serveur_fmgp.production" description="compile module TP3_SERVEUR_FMGP; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.tp3_serveur_fmgp" description="cleanup module">
+    <delete dir="${tp3_serveur_fmgp.output.dir}"/>
+    <delete dir="${tp3_serveur_fmgp.testoutput.dir}"/>
+  </target>
+  
+  <target name="init" description="Build initialization">
+    <!-- Perform any build initialization in this target -->
+  </target>
+  
+  <target name="clean" depends="clean.module.tp3_serveur_fmgp" description="cleanup all"/>
+  
+  <target name="build.modules" depends="init, clean, compile.module.tp3_serveur_fmgp" description="build all modules"/>
+  
+  <target name="init.artifacts">
+    <property name="artifacts.temp.dir" value="${basedir}/__artifacts_temp"/>
+    <property name="artifact.output.tp3_serveur_fmgp:jar" value="${basedir}/out/artifacts/TP3_SERVEUR_FMGP_jar"/>
+    <mkdir dir="${artifacts.temp.dir}"/>
+    <property name="temp.jar.path.TP3_SERVEUR_FMGP.jar" value="${artifacts.temp.dir}/TP3_SERVEUR_FMGP.jar"/>
+  </target>
+  
+  <target name="artifact.tp3_serveur_fmgp:jar" depends="init.artifacts, compile.module.tp3_serveur_fmgp" description="Build &#39;TP3_SERVEUR_FMGP:jar&#39; artifact">
+    <property name="artifact.temp.output.tp3_serveur_fmgp:jar" value="${artifacts.temp.dir}/TP3_SERVEUR_FMGP_jar"/>
+    <mkdir dir="${artifact.temp.output.tp3_serveur_fmgp:jar}"/>
+    <jar destfile="${temp.jar.path.TP3_SERVEUR_FMGP.jar}" duplicate="preserve" filesetmanifest="mergewithoutmain">
+      <zipfileset dir="${tp3_serveur_fmgp.output.dir}"/>
+      <zipfileset src="${basedir}/mysql-connector-java-5.1.38-bin.jar"/>
+      <zipfileset file="${basedir}/../TP3_CLIENT_FMGP/my_home.crt"/>
+      <zipfileset file="${basedir}/../TP3_CLIENT_FMGP/public.jks"/>
+    </jar>
+    <copy file="${temp.jar.path.TP3_SERVEUR_FMGP.jar}" tofile="${artifact.temp.output.tp3_serveur_fmgp:jar}/TP3_SERVEUR_FMGP.jar"/>
+  </target>
+  
+  <target name="build.all.artifacts" depends="artifact.tp3_serveur_fmgp:jar" description="Build all artifacts">
+    <mkdir dir="${artifact.output.tp3_serveur_fmgp:jar}"/>
+    <copy todir="${artifact.output.tp3_serveur_fmgp:jar}">
+      <fileset dir="${artifact.temp.output.tp3_serveur_fmgp:jar}"/>
+    </copy>
+    
+    <!-- Delete temporary files -->
+    <delete dir="${artifacts.temp.dir}"/>
+  </target>
+  
+  <target name="all" depends="build.modules, build.all.artifacts" description="build all"/>
+</project>
